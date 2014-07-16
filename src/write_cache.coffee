@@ -48,7 +48,7 @@ module.exports = writeCache = ($q, log, action, CachedResource) ->
 
     queueDeferred = $q.defer()
     queueDeferred.promise.then (httpResource) ->
-      modifyObjectInPlace(data, httpResource)
+      # modifyObjectInPlace(data, httpResource)
       data.$resolved = true
       deferred.resolve(data)
     queueDeferred.promise.catch deferred.reject
