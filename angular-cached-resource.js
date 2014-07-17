@@ -550,7 +550,8 @@ module.exports = readCache = function($q, log, name, CachedResource) {
       var resource;
       resource = CachedResource.$resource[name].call(CachedResource.$resource, params);
       resource.$promise.then(function(response) {
-        modifyObjectInPlace(instance, response);
+        response._source._version = response._version;
+        modifyObjectInPlace(instance, response._source);
         if (!cacheEntry.value) {
           cacheDeferred.resolve(instance);
         }
@@ -968,6 +969,8 @@ module.exports = writeCache = function($q, log, action, CachedResource) {
     queueDeferred = $q.defer();
     queueDeferred.promise.then(function(httpResource) {
       data.$raw = httpResource;
+      data._version = httpResource._version;
+      data.$$addToCache();
       data.$resolved = true;
       return deferred.resolve(data);
     });

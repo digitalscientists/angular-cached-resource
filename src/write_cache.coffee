@@ -49,6 +49,8 @@ module.exports = writeCache = ($q, log, action, CachedResource) ->
     queueDeferred = $q.defer()
     queueDeferred.promise.then (httpResource) ->
       data.$raw = httpResource
+      data._version = httpResource._version
+      data.$$addToCache()
       data.$resolved = true
       deferred.resolve(data)
     queueDeferred.promise.catch deferred.reject

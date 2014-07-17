@@ -17,7 +17,8 @@ module.exports = readCache = ($q, log, name, CachedResource) ->
     readHttp = ->
       resource = CachedResource.$resource[name].call(CachedResource.$resource, params)
       resource.$promise.then (response) ->
-        modifyObjectInPlace(instance, response)
+        response._source._version = response._version
+        modifyObjectInPlace(instance, response._source)
 
         cacheDeferred.resolve instance unless cacheEntry.value
         httpDeferred.resolve instance
