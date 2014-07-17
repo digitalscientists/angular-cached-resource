@@ -967,6 +967,7 @@ module.exports = writeCache = function($q, log, action, CachedResource) {
     }
     queueDeferred = $q.defer();
     queueDeferred.promise.then(function(httpResource) {
+      data.$raw = httpResource;
       data.$resolved = true;
       return deferred.resolve(data);
     });
