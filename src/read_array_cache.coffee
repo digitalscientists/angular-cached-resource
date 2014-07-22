@@ -34,8 +34,8 @@ module.exports = readArrayCache = ($q, log, name, CachedResource) ->
       resource.$promise.then (response) ->
         newArrayInstance = new Array()
 
-        response.map (resourceInstance) ->
-          resourceInstance = new CachedResource resourceInstance
+        response.hits.hits.map (resourceInstance) ->
+          resourceInstance = new CachedResource resourceInstance._source
           existingInstance = first(arrayInstance, resourceInstance.$params())
 
           if existingInstance

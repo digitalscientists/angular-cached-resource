@@ -159,7 +159,7 @@ module.exports = buildCachedResourceClass = function($resource, $timeout, $q, lo
     params = actions[name];
     method = params.method.toUpperCase();
     if (params.cache !== false) {
-      handler = method === 'GET' && params.isArray ? readArrayCache($q, log, name, CachedResource) : method === 'GET' ? readCache($q, log, name, CachedResource) : method === 'POST' || method === 'PUT' || method === 'DELETE' || method === 'PATCH' ? writeCache($q, log, name, CachedResource) : void 0;
+      handler = params.readArray ? readArrayCache($q, log, name, CachedResource) : method === 'GET' ? readCache($q, log, name, CachedResource) : method === 'POST' || method === 'PUT' || method === 'DELETE' || method === 'PATCH' ? writeCache($q, log, name, CachedResource) : void 0;
       CachedResource[name] = handler;
       if (method !== 'GET') {
         CachedResource.prototype["$" + name] = handler;
@@ -484,9 +484,9 @@ module.exports = readArrayCache = function($q, log, name, CachedResource) {
       resource.$promise.then(function(response) {
         var newArrayInstance;
         newArrayInstance = new Array();
-        response.map(function(resourceInstance) {
+        response.hits.hits.map(function(resourceInstance) {
           var existingInstance;
-          resourceInstance = new CachedResource(resourceInstance);
+          resourceInstance = new CachedResource(resourceInstance._source);
           existingInstance = first(arrayInstance, resourceInstance.$params());
           if (existingInstance) {
             modifyObjectInPlace(existingInstance, resourceInstance);

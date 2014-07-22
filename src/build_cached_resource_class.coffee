@@ -85,7 +85,7 @@ module.exports = buildCachedResourceClass = ($resource, $timeout, $q, log, args)
   for name, params of actions
     method = params.method.toUpperCase()
     unless params.cache is false
-      handler = if method is 'GET' and params.isArray
+      handler = if params.readArray
           readArrayCache($q, log, name, CachedResource)
         else if method is 'GET'
           readCache($q, log, name, CachedResource)
