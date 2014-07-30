@@ -88,6 +88,10 @@ module.exports = buildCachedResourceClass = function($resource, $timeout, $q, lo
       return this;
     };
 
+    CachedResource.prototype.$isDirty = function() {
+      return (new ResourceCacheEntry($key, this.$params())).load().dirty;
+    };
+
     CachedResource.$clearAll = function(_arg) {
       var cacheArrayEntry, clearPendingWrites, exceptFor, exceptForKeys, key, params, queue, resourceParams, _i, _j, _len, _len1, _ref, _ref1;
       _ref = _arg != null ? _arg : {}, exceptFor = _ref.exceptFor, clearPendingWrites = _ref.clearPendingWrites;
