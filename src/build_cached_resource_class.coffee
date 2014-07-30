@@ -49,6 +49,8 @@ module.exports = buildCachedResourceClass = ($resource, $timeout, $q, log, args)
       entry = new ResourceCacheEntry($key, @$params())
       entry.set @, dirty
       @
+    $isDirty: ->
+      (new ResourceCacheEntry($key, @$params())).load().dirty
     @$clearAll: ({exceptFor, clearPendingWrites} = {}) ->
       exceptForKeys = []
 
