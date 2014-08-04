@@ -642,19 +642,11 @@ module.exports = function(log) {
     };
 
     function ResourceCacheEntry(key, params) {
-      var param, paramKeys;
+      var paramKeys;
       this.key = key;
       paramKeys = angular.isObject(params) ? Object.keys(params).sort() : [];
       if (paramKeys.length) {
-        this.cacheKeyParams = '?' + ((function() {
-          var _i, _len, _results;
-          _results = [];
-          for (_i = 0, _len = paramKeys.length; _i < _len; _i++) {
-            param = paramKeys[_i];
-            _results.push("" + param + "=" + params[param]);
-          }
-          return _results;
-        })()).join('&');
+        this.cacheKeyParams = '?' + JSON.stringify(params);
       }
     }
 
